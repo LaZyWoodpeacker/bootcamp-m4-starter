@@ -1,37 +1,24 @@
 import React, { Component } from 'react';
 import MovieItem from '../MovieItem/MovieItem';
 import './Movies.css';
+import { connect } from 'react-redux'
 
 class Movies extends Component {
-    state = { 
-        movies: [
-            {
-                imdbID: 'tt3896198',
-                title: "Guardians of the Galaxy Vol. 2",
-                year: 2017,
-                poster: "https://m.media-amazon.com/images/M/MV5BNjM0NTc0NzItM2FlYS00YzEwLWE0YmUtNTA2ZWIzODc2OTgxXkEyXkFqcGdeQXVyNTgwNzIyNzg@._V1_SX300.jpg"
-
-            },
-            {
-                imdbID: 'tt0068646',
-                title: "The Godfather",
-                year: 1972,
-                poster: "https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg"
-
-            }
-        ]
-    }
-    render() { 
-        return ( 
+    render() {
+        return (
             <ul className="movies">
-                {this.state.movies.map((movie) => (
+                { this.props.movies && this.props.movies.map((movie) => (
                     <li className="movies__item" key={movie.imdbID}>
-                        <MovieItem {...movie} />
+                        <MovieItem {...movie} Click={e => {
+                            if (!this.props.chart.find(e => e.imdbID === movie.imdbID)) {
+                                this.props.dispatch({ type: 'ADD_TO_CART', payload: movie })
+                            }
+                        }} />
                     </li>
                 ))}
             </ul>
         );
     }
 }
- 
-export default Movies;
+
+export default connect(state => ({ movies: state.searchlist, chart: state.chartList }))(Movies);

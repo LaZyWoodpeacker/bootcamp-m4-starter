@@ -1,26 +1,31 @@
 import React, { Component } from 'react';
 import './SearchBox.css';
+import { connect } from 'react-redux';
+import key from '../../store/key';
+
 
 class SearchBox extends Component {
-    state = {
-        searchLine: ''
-    }
     searchLineChangeHandler = (e) => {
-        this.setState({ searchLine: e.target.value });
+        this.props.dispatch({ type: 'SEARCH_CHANGED', payload: e.target.value })
     }
     searchBoxSubmitHandler = (e) => {
         e.preventDefault();
+        console.log(`http://www.omdbapi.com/?s=${this.props.searchLine}&${key}`)
+        fetch(`http://www.omdbapi.com/?s=${this.props.searchLine}&${key}`)
+            .then(r => r.json())
+            .then(e => {
+                this.props.dispatch({ type: 'SEARCH_FILL', payload: e.Search })
+            })
+            .catch(e => { debugger });
     }
     render() {
-        const { searchLine } = this.state;
-
         return (
             <div className="search-box">
                 <form className="search-box__form" onSubmit={this.searchBoxSubmitHandler}>
                     <label className="search-box__form-label">
                         Искать фильм по названию:
                         <input
-                            value={searchLine}
+                            value={this.props.searchLine}
                             type="text"
                             className="search-box__form-input"
                             placeholder="Например, Shawshank Redemption"
@@ -30,7 +35,7 @@ class SearchBox extends Component {
                     <button
                         type="submit"
                         className="search-box__form-submit"
-                        disabled={!searchLine}
+                        disabled={!this.props.searchLine}
                     >
                         Искать
                     </button>
@@ -39,5 +44,5 @@ class SearchBox extends Component {
         );
     }
 }
- 
-export default SearchBox;
+
+export default connect(state => ({ searchLine: state.searchStr }), null)(SearchBox);

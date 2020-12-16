@@ -31,3 +31,9 @@
     opacity: 0.9;
     transition: all 0.2s linear;
 }
+
+.favorites__del {
+    cursor: pointer;
+    padding: 5px;
+    display: inline-block;
+}
