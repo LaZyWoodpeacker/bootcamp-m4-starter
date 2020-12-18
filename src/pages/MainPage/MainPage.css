@@ -5,9 +5,8 @@
 }
 
 .main-page__main-section {
-    padding-left: 40px;
     box-sizing: border-box;
-    width: 60%;
+    width: 55%;
 }
 
 .main-page__search-box {
@@ -15,5 +14,17 @@
 }
 
 .main-page__favorites {
-    width: 35%;   
+    width: 35%;
+}
+
+@media only screen and (max-width: 685px) {
+    .main-page__content {
+        flex-direction: column;
+    }
+    .main-page__favorites {
+        width: 100%;
+    }
+    .main-page__main-section {
+        width: 100%;
+    }
 }

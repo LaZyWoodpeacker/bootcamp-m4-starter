@@ -11,12 +11,12 @@ class Favorites extends Component {
     render() {
         return (
             <div className="favorites">
-                <input value={this.props.title} className="favorites__name" onChange={e => this.chartNameChanged(e)} />
+                <input value={this.props.title} className="favorites__name" onChange={e => this.chartNameChanged(e)} disabled={this.props.savedState} />
                 <ul className="favorites__list">
                     {this.props.movies.map((item) => {
                         return <li key={item.imdbID}>{item.Title} ({item.Year}) <span onClick={e => {
                             this.props.dispatch({ type: 'REMOVE_FROM_CART', payload: item.imdbID })
-                        }} className="favorites__del">&#9746;</span></li>;
+                        }} className="favorites__del" style={{ display: (this.props.savedState) ? 'none' : 'inline-block' }}>&#9746;</span></li>;
                     })}
                 </ul>
                 {

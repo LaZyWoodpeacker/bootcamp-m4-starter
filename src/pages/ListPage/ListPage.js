@@ -8,16 +8,11 @@ class ListPage extends Component {
         movies: []
     }
     componentDidMount() {
-        const id = this.props.match.params.id;
-        fetch('https://acb-api.algoritmika.org/api/movies/list/' + id)
+        fetch('https://acb-api.algoritmika.org/api/movies/list/' + this.props.match.params.id)
             .then(r => r.json())
             .then(json => {
-                console.log(json);
                 const title = json.title;
-                const data = json.movies.map(id => {
-                    return fetch(`http://www.omdbapi.com/?i=${id}&${key}`)
-                        .then(r => r.json())
-                })
+                const data = json.movies.map(id => fetch(`http://www.omdbapi.com/?i=${id}&${key}`).then(r => r.json()))
                 Promise.all(data).then(movies => {
                     this.setState({ movies, title })
                 })

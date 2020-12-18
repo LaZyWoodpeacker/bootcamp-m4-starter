@@ -10,13 +10,12 @@ class SearchBox extends Component {
     }
     searchBoxSubmitHandler = (e) => {
         e.preventDefault();
-        console.log(`http://www.omdbapi.com/?s=${this.props.searchLine}&${key}`)
         fetch(`http://www.omdbapi.com/?s=${this.props.searchLine}&${key}`)
             .then(r => r.json())
             .then(e => {
                 this.props.dispatch({ type: 'SEARCH_FILL', payload: e.Search })
             })
-            .catch(e => { debugger });
+            .catch(e => { });
     }
     render() {
         return (
